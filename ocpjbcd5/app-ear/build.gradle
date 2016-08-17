@@ -1,0 +1,40 @@
+apply plugin: 'ear'
+
+dependencies{
+
+    deploy project(path: ':app-web', configuration: 'archives')
+    deploy project(path: ':app-webservices' , configuration: 'archives')
+    deploy project(path: ':app-library' , configuration: 'archives')
+    deploy project(path: ':app-services' , configuration: 'archives')
+
+    earlib group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.2'
+    earlib group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.2'
+    earlib group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
+/*
+    earlib 'org.javassist:javassist:3.15.0-GA'
+    earlib 'org.hibernate:hibernate-core:4.3.5.Final'
+    earlib 'org.hibernate:hibernate-entitymanager:4.3.5.Final'
+    earlib 'org.slf4j:slf4j-api:1.7.5' */
+}
+
+ear {
+
+    archiveName = 'ocpjbcd5.ear'
+
+    def home = System.getProperty("user.home")
+
+    //buildDir = new File( home + "/Documents/workspace/JavaDevelopment/jboss-as-7.1.1.Final/standalone/deployments")
+
+    deploymentDescriptor {
+        initializeInOrder = true
+        applicationName = 'ocpjbcd5'
+        displayName = 'ocpjbcd5'
+        description = 'Studying for ocpjbcd5 java certification'
+
+        module("app-webservices.jar", "ejb")
+        module("app-services.jar", "ejb")
+        module("app-library.jar", "java")
+
+        webModule("app-web.war", "/ocpjbcd5")
+    }
+}

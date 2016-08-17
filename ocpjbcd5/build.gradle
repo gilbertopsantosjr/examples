@@ -1,0 +1,32 @@
+
+    subprojects {
+
+        apply plugin: 'java'
+
+        sourceCompatibility = 1.7
+        targetCompatibility = 1.7
+
+        repositories {
+            mavenCentral()
+            jcenter()
+            maven {
+                url "http://localhost:8081/nexus/content/groups/public"
+            }
+        }
+
+        configurations {
+            endorsed
+            compile.extendsFrom endorsed
+        }
+
+        ext {
+            javaee = '6.0'
+        }
+
+        dependencies {
+            endorsed "javax:javaee-api:${javaee}"
+        }
+
+    }
+
+

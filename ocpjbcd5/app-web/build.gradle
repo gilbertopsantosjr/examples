@@ -1,0 +1,7 @@
+
+apply plugin: 'war'
+
+dependencies {
+    compile project(':app-services')
+    compile 'org.primefaces:primefaces:4.0'
+}

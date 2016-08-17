@@ -1,0 +1,30 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+unless Vagrant.has_plugin?("vagrant-docker-compose")
+  system("vagrant plugin install vagrant-docker-compose")
+  puts "Dependencies installed, please try the command again."
+  exit
+end
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.network "private_network", ip: "192.168.50.10"
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 4500
+    v.cpus = 2
+  end
+
+  config.vm.network(:forwarded_port, guest: 80, host: 80)
+  config.vm.network(:forwarded_port, guest: 3306, host: 3306)
+  config.vm.network(:forwarded_port, guest: 8080, host: 8080)
+  config.vm.network(:forwarded_port, guest: 4444, host: 4444)
+  config.vm.network(:forwarded_port, guest: 18080, host: 18080)
+  config.vm.network(:forwarded_port, guest: 19000, host: 19000)
+  config.vm.network(:forwarded_port, guest: 18081, host: 18081)
+  config.vm.network(:forwarded_port, guest: 10080, host: 10080)
+
+  config.vm.provision :shell, inline: "apt-get update "  
+  config.vm.provision :docker
+  config.vm.provision :docker_compose, yml: ["/vagrant/manifests/docker-ci-tool/docker-compose.yml"], rebuild: true, project_name: "docker-ci-env", run: "always"
+end
