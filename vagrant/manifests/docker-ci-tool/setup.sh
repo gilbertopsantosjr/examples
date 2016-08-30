@@ -9,7 +9,7 @@
 # - Git v2.6.4
 
 echo "Create docker machine"
-docker-machine create -d virtualbox --virtualbox-memory "6000" docker-ci-tools
+docker-machine create -d virtualbox --virtualbox-memory "1000" docker-ci-tools
 
 echo "Setup environment"
 eval $(docker-machine env docker-ci-tools)

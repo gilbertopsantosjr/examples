@@ -11,20 +11,46 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/trusty64"
   config.vm.network "private_network", ip: "192.168.50.10"
   config.vm.provider "virtualbox" do |v|
-    v.memory = 4500
+    v.memory = 1024
     v.cpus = 2
   end
+  
+  forward_port = ->(guest, host = guest) do
+    config.vm.network :forwarded_port,
+      guest: guest,
+      host: host,
+      auto_correct: true
+  end
 
-  config.vm.network(:forwarded_port, guest: 80, host: 80)
-  config.vm.network(:forwarded_port, guest: 3306, host: 3306)
-  config.vm.network(:forwarded_port, guest: 8080, host: 8080)
-  config.vm.network(:forwarded_port, guest: 4444, host: 4444)
-  config.vm.network(:forwarded_port, guest: 18080, host: 18080)
-  config.vm.network(:forwarded_port, guest: 19000, host: 19000)
-  config.vm.network(:forwarded_port, guest: 18081, host: 18081)
-  config.vm.network(:forwarded_port, guest: 10080, host: 10080)
+  # Sync between the web root of the VM and the 'sites' directory
+  config.vm.synced_folder "manifests/docker-ci-tool/apache-php/sites/", "/var/www/html"
 
-  config.vm.provision :shell, inline: "apt-get update "  
+  forward_port[80]
+  forward_port[3306]
+  forward_port[8080]
+  forward_port[4444]
+  forward_port[10080]
+  
+  # Jenkins
+  forward_port[18080]
+  
+  # SonarQube
+  forward_port[19000]
+  
+  # Nexus
+  forward_port[18081]
+  
+  # H2 Database port
+  forward_port[9092]  
+  
   config.vm.provision :docker
+  
+  config.vm.provision :puppet do |puppet|
+    puppet.manifests_path = "manifests"
+    puppet.manifest_file = "docker.pp"
+  end	
+  
   config.vm.provision :docker_compose, yml: ["/vagrant/manifests/docker-ci-tool/docker-compose.yml"], rebuild: true, project_name: "docker-ci-env", run: "always"
+  
+
 end

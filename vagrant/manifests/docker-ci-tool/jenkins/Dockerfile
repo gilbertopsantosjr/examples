@@ -34,7 +34,7 @@ COPY plugins.txt /var/jenkins_home/plugins.txt
 RUN /usr/local/bin/plugins.sh /var/jenkins_home/plugins.txt
 
 # Adding default Jenkins Jobs
-# COPY jobs/1-github-seed-job.xml /usr/share/jenkins/ref/jobs/1-github-seed-job/config.xml
+COPY jobs/cadmea.xml /usr/share/jenkins/ref/jobs/cadmea/config.xml
 # COPY jobs/2-job-dsl-seed-job.xml /usr/share/jenkins/ref/jobs/2-job-dsl-seed-job/config.xml
 # COPY jobs/3-conference-app-seed-job.xml /usr/share/jenkins/ref/jobs/3-conference-app-seed-job/config.xml
 # COPY jobs/4-selenium2-seed-job.xml /usr/share/jenkins/ref/jobs/4-selenium2-seed-job/config.xml
@@ -55,3 +55,5 @@ COPY config/maven-global-settings-files.xml /usr/share/jenkins/ref/maven-global-
 COPY config/credentials.xml /usr/share/jenkins/ref/credentials.xml
 COPY config/ssh-keys/id_rsa_github /usr/share/jenkins/ref/.ssh/id_rsa
 COPY config/ssh-keys/id_rsa_github.pub /usr/share/jenkins/ref/.ssh/id_rsa.pub
+
+

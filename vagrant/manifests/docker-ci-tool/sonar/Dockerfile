@@ -8,7 +8,7 @@
 
 FROM java:openjdk-8u45-jdk
 
-MMAINTAINER Gilberto Santos <gilbertopsantosjr@gmail.com>
+MAINTAINER Gilberto Santos <gilbertopsantosjr@gmail.com>
 
 ENV SONARQUBE_HOME /opt/sonarqube
 
