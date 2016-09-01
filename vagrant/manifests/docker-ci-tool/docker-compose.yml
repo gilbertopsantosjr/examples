@@ -5,7 +5,13 @@ networks:
     driver: bridge
 
 services:
-
+ nexus:
+  build: ./nexus
+  ports:
+    - "18081:8081"
+  networks:
+    - prodnetwork
+    
 # glassfish:
 #  build: ./glassfish
 #  ports:
