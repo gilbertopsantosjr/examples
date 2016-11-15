@@ -29,9 +29,9 @@ public class RandomFeedProvider {
 
 enum NNumberUsers{
 
-	GILBERTO_SANTOS("n0260983"),
-	SIMON_COWAN("n0260984"),
-	GILLIAN_ARMSTRONG("n0260985");
+	GILBERTO_SANTOS("****"),
+	SIMON_COWAN("****"),
+	GILLIAN_ARMSTRONG("****");
 	
 	private String label;
 	
